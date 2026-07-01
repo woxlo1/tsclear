@@ -89,5 +89,15 @@ export const patterns: ErrorPattern[] = [
     explain: (m) =>
       `'.${m[1]}' doesn't exist on type '${m[2]}'. TypeScript thinks you meant '.${m[3]}' — check for a typo.`,
   },
+
+  {
+    id: "not-callable",
+    code: "TS2349",
+    match: /This expression is not callable\./,
+    explain: () =>
+      `You're trying to call something as a function, but its type says it isn't callable. ` +
+      `Check whether the variable actually holds a function, or if you're missing parentheses somewhere.`,
+  },
 ];
+
 
