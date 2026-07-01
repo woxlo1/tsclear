@@ -129,7 +129,7 @@ describe("explainDiagnostic", () => {
       rawMessage: "This condition will always return 'false' since the types 'string' and 'number' have no overlap.",
     });
     expect(result.matchedPatternId).toBe("union-not-narrowed");
-    expect(result.explanation).toContain("overlap");
+    expect(result.explanation).toContain("never be equal");
   });
 
   it("explains TS2366 (missing return type)", () => {
