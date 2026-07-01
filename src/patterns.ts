@@ -107,7 +107,17 @@ export const patterns: ErrorPattern[] = [
       `This value might be 'undefined' at this point. ` +
       `Add a check (like 'if (value !== undefined)') or use optional chaining '?.' before accessing it.`,
   },
+
+  {
+    id: "readonly-cannot-assign",
+    code: "TS2540",
+    match: /Cannot assign to '(.+)' because it is a read-only property\.?$/,
+    explain: (m) =>
+      `'${m[1]}' is marked as 'readonly' and cannot be reassigned after initialization. ` +
+      `If you need to change this value, remove the 'readonly' modifier from the type definition.`,
+  },
 ];
+
 
 
 
