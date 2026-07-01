@@ -41,4 +41,44 @@ export const patterns: ErrorPattern[] = [
       `'${m[1]}' isn't defined anywhere TypeScript can see. ` +
       `This is usually a missing import, a typo, or a missing @types package for a third-party library.`,
   },
+  {
+    id: "object-possibly-null",
+    code: "TS2531",
+    match: /Object is possibly 'null'\.?$/,
+    explain: () =>
+      `This value could be 'null' here. ` +
+      `Add a check (like 'if (value !== null)') or optional chaining '?.' before using it, or use a non-null assertion '!' if you're certain it can't be null at this point.`,
+  },
+  {
+    id: "missing-required-properties",
+    code: "TS2741",
+    match: /Property '(.+)' is missing in type '(.+)' but required in type '(.+)'\.?$/,
+    explain: (m) =>
+      `The object you're providing (of type '${m[2]}') is missing the required property '${m[1]}' that '${m[3]}' expects. ` +
+      `Add '${m[1]}' to the object, or make it optional in the type definition if it shouldn't be required.`,
+  },
+  {
+    id: "wrong-argument-count",
+    code: "TS2554",
+    match: /Expected (\d+) arguments?, but got (\d+)\.?$/,
+    explain: (m) =>
+      `This function expects ${m[1]} argument(s), but it's being called with ${m[2]}. ` +
+      `Check the function's signature and make sure you're passing the right number of arguments.`,
+  },
+  {
+    id: "implicit-any-parameter",
+    code: "TS7006",
+    match: /Parameter '(.+)' implicitly has an '(.+)' type\.?$/,
+    explain: (m) =>
+      `The parameter '${m[1]}' doesn't have an explicit type, so TypeScript is falling back to '${m[2]}'. ` +
+      `Add a type annotation (e.g. '${m[1]}: string') to get proper type checking here.`,
+  },
+  {
+    id: "no-overload-matches",
+    code: "TS2769",
+    match: /No overload matches this call\.?$/,
+    explain: () =>
+      `None of this function's overloads accept the arguments you're passing. ` +
+      `Check the function's available signatures (hover over it in your editor) and compare them against what you're passing in — usually one argument's type is slightly off.`,
+  },
 ];
