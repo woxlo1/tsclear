@@ -125,7 +125,17 @@ export const patterns: ErrorPattern[] = [
       `TypeScript can't find the module '${m[1]}'. ` +
       `Check that the package is installed ('npm install ${m[1]}'), and if it's a third-party library, you may also need '@types/${m[1]}' for type declarations.`,
   },
+
+  {
+    id: "type-has-no-index-signature",
+    code: "TS7053",
+    match: /Element implicitly has an 'any' type because expression of type '(.+)' can't be used to index type '(.+)'\./,
+    explain: (m) =>
+      `You're indexing into '${m[2]}' with a key of type '${m[1]}', but that type has no index signature. ` +
+      `Either add an index signature to the type, or use 'keyof' to constrain the key type.`,
+  },
 ];
+
 
 
 
