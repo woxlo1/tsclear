@@ -149,4 +149,13 @@ describe("explainDiagnostic", () => {
     expect(result.matchedPatternId).toBe("abstract-class-instantiation");
     expect(result.explanation).toContain("abstract");
   });
+
+  it("explains TS2352 (conversion may be a mistake)", () => {
+    const result = explainDiagnostic({
+      file: "a.ts", line: 1, column: 1, code: "TS2352",
+      rawMessage: "Conversion of type 'string' to type 'number' may be a mistake because neither type sufficiently overlaps with the other.",
+    });
+    expect(result.matchedPatternId).toBe("conversion-may-be-mistake");
+    expect(result.explanation).toContain("string");
+  });
 });
