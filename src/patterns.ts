@@ -143,7 +143,17 @@ export const patterns: ErrorPattern[] = [
       `Comparing '${m[2]}' and '${m[3]}' will always be '${m[1]}' because these two types can never be equal. ` +
       `This is usually a sign that a variable was narrowed to an unexpected type, or there's a logic error in your condition.`,
   },
+
+  {
+    id: "missing-return-type",
+    code: "TS2366",
+    match: /Function lacks ending return statement and return type does not include 'undefined'\.?$/,
+    explain: () =>
+      `Not all code paths in this function return a value, but the return type doesn't include 'undefined'. ` +
+      `Either add a return statement at the end, or update the return type to include '| undefined'.`,
+  },
 ];
+
 
 
 
