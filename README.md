@@ -1,24 +1,39 @@
 # tsclear
 
-**Turns confusing TypeScript compiler errors into clear, human-readable explanations.**
+[![CI](https://github.com/woxlo1/tsclear/actions/workflows/ci.yml/badge.svg)](https://github.com/woxlo1/tsclear/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/tsclear.svg)](https://www.npmjs.com/package/tsclear)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+> TypeScript compiler errors, explained in plain English.
+
+`tsclear` pipes between `tsc` and your terminal and rewrites cryptic TypeScript errors into clear, actionable explanations — without losing any information.
+
+---
+
+## The problem
+
+```
+src/api.ts(23,5): error TS2345: Argument of type '{ id: string; name: string; }' is not
+assignable to parameter of type 'User'. Type '{ id: string; name: string; }' is missing
+the following properties from type 'User': email, createdAt, updatedAt
+```
+
+What does that actually mean? What should you fix first?
+
+## The solution
 
 ```
 $ npx tsc --noEmit | npx tsclear
 
-TS2339 src/user.ts:14:10
-  → You're accessing '.name' on something typed as 'User | undefined', but that type has no
-    such property. This usually means a typo, a missing type definition, or the object hasn't
-    been narrowed to the right type yet.
-
-1 error(s) explained.
+TS2345  src/api.ts:23:5
+  → You're calling a function with an argument of type '{ id: string; name: string; }',
+    but it expects type 'User'. Double-check the value you're passing in, or the
+    function's parameter type.
 ```
 
-## Why
+Same information, actually readable.
 
-TypeScript's type checker is great, but its error messages can be long, jargon-heavy,
-and hard to parse — especially for beginners or when generics are involved. `tsclear`
-sits between `tsc` and your terminal and rewrites known error patterns into plain
-language, with a suggestion for what to check first.
+---
 
 ## Install
 
@@ -26,7 +41,7 @@ language, with a suggestion for what to check first.
 npm install -D tsclear
 ```
 
-Or run it without installing:
+Or run without installing:
 
 ```bash
 npx tsc --noEmit | npx tsclear
@@ -34,20 +49,76 @@ npx tsc --noEmit | npx tsclear
 
 ## Usage
 
-`tsclear` reads from stdin, so pipe any `tsc` output into it:
+Pipe any `tsc` output into `tsclear`:
 
 ```bash
 npx tsc --noEmit | npx tsclear
 ```
 
-Errors it doesn't recognize yet are passed through with the original message, so you
-never lose information — you just get extra help on the patterns it knows.
+Works with any `tsc` flags you're already using:
 
-## Currently supported error codes
+```bash
+npx tsc --noEmit --strict | npx tsclear
+npx tsc -p tsconfig.prod.json | npx tsclear
+```
+
+### Add to package.json
+
+```json
+{
+  "scripts": {
+    "typecheck": "tsc --noEmit | tsclear"
+  }
+}
+```
+
+Then run with:
+
+```bash
+npm run typecheck
+```
+
+### Unknown errors
+
+Errors that `tsclear` doesn't recognize yet are passed through unchanged — you never lose information from the original `tsc` output.
+
+---
+
+## Use as a library
+
+`tsclear` also exports its parser and explainer for programmatic use:
+
+```typescript
+import { parseTscOutput, explainAll } from "tsclear";
+
+const raw = `src/index.ts(1,1): error TS2304: Cannot find name 'fetchUser'.`;
+
+const diagnostics = parseTscOutput(raw);
+const explained = explainAll(diagnostics);
+
+console.log(explained[0].explanation);
+// → 'fetchUser' isn't defined anywhere TypeScript can see. This is usually
+//   a missing import, a typo, or a missing @types package for a third-party library.
+```
+
+Available exports:
+
+```typescript
+import {
+  parseTscOutput,      // string → ParsedDiagnostic[]
+  explainAll,          // ParsedDiagnostic[] → ClearedDiagnostic[]
+  explainDiagnostic,   // ParsedDiagnostic → ClearedDiagnostic
+  patterns,            // ErrorPattern[] — the full list of known patterns
+} from "tsclear";
+```
+
+---
+
+## Supported error codes
 
 | Code     | Meaning                                          |
 | -------- | ------------------------------------------------- |
-| TS2304   | Cannot find name (missing import/typo)            |
+| TS2304   | Cannot find name (missing import / typo)          |
 | TS2307   | Cannot find module or its type declarations       |
 | TS2322   | Type is not assignable to target type             |
 | TS2339   | Property does not exist on type                   |
@@ -68,17 +139,22 @@ never lose information — you just get extra help on the patterns it knows.
 | TS7053   | Expression can't be used to index type            |
 | TS18048  | Value is possibly `undefined`                     |
 
-More patterns are added regularly — see [CONTRIBUTING.md](./CONTRIBUTING.md) if you'd
-like to add one for an error you keep running into.
+More patterns are added with every release. Open an issue or PR if you keep running into an error that isn't covered yet — see [CONTRIBUTING.md](./CONTRIBUTING.md).
+
+---
+
+## Requirements
+
+- Node.js 18 or later
 
 ## Versioning
 
-This project follows [Semantic Versioning](https://semver.org/) and
-[Conventional Commits](https://www.conventionalcommits.org/). The version number is
-**not** bumped on every commit — only on meaningful releases. See
-[CONTRIBUTING.md](./CONTRIBUTING.md#versioning--releases) for details on how releases
-are cut.
+This project follows [Semantic Versioning](https://semver.org/) and [Conventional Commits](https://www.conventionalcommits.org/). Version numbers are bumped at release time only — not on every commit. See [CHANGELOG.md](./CHANGELOG.md) for release history.
+
+## Contributing
+
+Contributions are welcome! The most valuable thing you can add is a new error pattern explanation. See [CONTRIBUTING.md](./CONTRIBUTING.md) for how to add one, run tests, and how releases are cut.
 
 ## License
 
-MIT
+MIT © [woxlo1](https://github.com/woxlo1)
