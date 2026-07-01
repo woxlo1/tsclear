@@ -113,4 +113,13 @@ describe("explainDiagnostic", () => {
     expect(result.matchedPatternId).toBe("cannot-find-module");
     expect(result.explanation).toContain("lodash");
   });
+
+  it("explains TS7053 (no index signature)", () => {
+    const result = explainDiagnostic({
+      file: "a.ts", line: 1, column: 1, code: "TS7053",
+      rawMessage: "Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ a: number; }'.",
+    });
+    expect(result.matchedPatternId).toBe("type-has-no-index-signature");
+    expect(result.explanation).toContain("index");
+  });
 });
