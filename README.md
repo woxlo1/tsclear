@@ -52,6 +52,11 @@ never lose information — you just get extra help on the patterns it knows.
 | TS18048  | Value is possibly `undefined`             |
 | TS2345   | Argument type mismatch in a function call |
 | TS2304   | Cannot find name (missing import/typo)    |
+| TS2531   | Object is possibly `null`                 |
+| TS2741   | Required property missing on an object    |
+| TS2554   | Wrong number of arguments in a call       |
+| TS7006   | Parameter implicitly has an `any` type    |
+| TS2769   | No function overload matches the call     |
 
 More patterns are added regularly — see [CONTRIBUTING.md](./CONTRIBUTING.md) if you'd
 like to add one for an error you keep running into.
