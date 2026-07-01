@@ -152,7 +152,17 @@ export const patterns: ErrorPattern[] = [
       `Not all code paths in this function return a value, but the return type doesn't include 'undefined'. ` +
       `Either add a return statement at the end, or update the return type to include '| undefined'.`,
   },
+
+  {
+    id: "abstract-class-instantiation",
+    code: "TS2511",
+    match: /Cannot create an instance of an abstract class\.?$/,
+    explain: () =>
+      `You're trying to use 'new' on an abstract class, which isn't allowed. ` +
+      `Abstract classes are meant to be extended, not instantiated directly — create a concrete subclass and instantiate that instead.`,
+  },
 ];
+
 
 
 
