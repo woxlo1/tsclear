@@ -45,18 +45,28 @@ never lose information — you just get extra help on the patterns it knows.
 
 ## Currently supported error codes
 
-| Code     | Meaning                                  |
-| -------- | ----------------------------------------- |
-| TS2322   | Type is not assignable to target type     |
-| TS2339   | Property does not exist on type           |
-| TS18048  | Value is possibly `undefined`             |
-| TS2345   | Argument type mismatch in a function call |
-| TS2304   | Cannot find name (missing import/typo)    |
-| TS2531   | Object is possibly `null`                 |
-| TS2741   | Required property missing on an object    |
-| TS2554   | Wrong number of arguments in a call       |
-| TS7006   | Parameter implicitly has an `any` type    |
-| TS2769   | No function overload matches the call     |
+| Code     | Meaning                                          |
+| -------- | ------------------------------------------------- |
+| TS2304   | Cannot find name (missing import/typo)            |
+| TS2307   | Cannot find module or its type declarations       |
+| TS2322   | Type is not assignable to target type             |
+| TS2339   | Property does not exist on type                   |
+| TS2345   | Argument type mismatch in a function call         |
+| TS2349   | Expression is not callable                        |
+| TS2352   | Type conversion may be a mistake                  |
+| TS2366   | Function missing ending return statement          |
+| TS2367   | Condition always returns same value (no overlap)  |
+| TS2511   | Cannot instantiate an abstract class              |
+| TS2531   | Object is possibly `null`                         |
+| TS2532   | Object is possibly `undefined`                    |
+| TS2540   | Cannot assign to a read-only property             |
+| TS2551   | Property doesn't exist — did you mean X?          |
+| TS2554   | Wrong number of arguments in a call               |
+| TS2741   | Required property missing on an object            |
+| TS2769   | No function overload matches the call             |
+| TS7006   | Parameter implicitly has an `any` type            |
+| TS7053   | Expression can't be used to index type            |
+| TS18048  | Value is possibly `undefined`                     |
 
 More patterns are added regularly — see [CONTRIBUTING.md](./CONTRIBUTING.md) if you'd
 like to add one for an error you keep running into.
