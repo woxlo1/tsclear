@@ -104,4 +104,13 @@ describe("explainDiagnostic", () => {
     expect(result.matchedPatternId).toBe("readonly-cannot-assign");
     expect(result.explanation).toContain("id");
   });
+
+  it("explains TS2307 (cannot find module)", () => {
+    const result = explainDiagnostic({
+      file: "a.ts", line: 1, column: 1, code: "TS2307",
+      rawMessage: "Cannot find module 'lodash' or its corresponding type declarations.",
+    });
+    expect(result.matchedPatternId).toBe("cannot-find-module");
+    expect(result.explanation).toContain("lodash");
+  });
 });
