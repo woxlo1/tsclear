@@ -86,4 +86,13 @@ describe("explainDiagnostic", () => {
     expect(result.matchedPatternId).toBe("not-callable");
     expect(result.explanation).toContain("function");
   });
+
+  it("explains TS2532 (possibly undefined access)", () => {
+    const result = explainDiagnostic({
+      file: "a.ts", line: 1, column: 1, code: "TS2532",
+      rawMessage: "Object is possibly 'undefined'.",
+    });
+    expect(result.matchedPatternId).toBe("possibly-undefined-access");
+    expect(result.explanation).toContain("undefined");
+  });
 });
