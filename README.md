@@ -138,6 +138,16 @@ import {
 | TS7006   | Parameter implicitly has an `any` type            |
 | TS7053   | Expression can't be used to index type            |
 | TS18048  | Value is possibly `undefined`                     |
+| TS2347   | Type arguments not allowed here                   |
+| TS2448   | Variable used before its declaration              |
+| TS2559   | Object has no properties in common with type      |
+| TS2578   | Unused @ts-expect-error directive                 |
+| TS2614   | Module has no exported member                     |
+| TS2693   | Type used as a value at runtime                   |
+| TS2722   | Cannot invoke a possibly undefined function       |
+| TS4114   | Override keyword required                         |
+| TS6133   | Variable declared but never read                  |
+| TS7015   | Array index expression is not a number            |
 
 More patterns are added with every release. Open an issue or PR if you keep running into an error that isn't covered yet — see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
