@@ -159,3 +159,74 @@ describe("explainDiagnostic", () => {
     expect(result.explanation).toContain("string");
   });
 });
+describe("explainDiagnostic - batch 4 patterns", () => {
+  it("explains TS6133 (unused variable)", () => {
+    const result = explainDiagnostic({ file: "a.ts", line: 1, column: 1, code: "TS6133",
+      rawMessage: "'count' is declared but its value is never read." });
+    expect(result.matchedPatternId).toBe("unused-variable");
+    expect(result.explanation).toContain("count");
+  });
+
+  it("explains TS2614 (no exported member)", () => {
+    const result = explainDiagnostic({ file: "a.ts", line: 1, column: 1, code: "TS2614",
+      rawMessage: "Module 'lodash' has no exported member 'flatMap'." });
+    expect(result.matchedPatternId).toBe("no-exported-member");
+    expect(result.explanation).toContain("flatMap");
+  });
+
+  it("explains TS2693 (type used as value)", () => {
+    const result = explainDiagnostic({ file: "a.ts", line: 1, column: 1, code: "TS2693",
+      rawMessage: "'User' only refers to a type, but is being used as a value here." });
+    expect(result.matchedPatternId).toBe("type-used-as-value");
+    expect(result.explanation).toContain("User");
+  });
+
+  it("explains TS2722 (cannot invoke possibly undefined)", () => {
+    const result = explainDiagnostic({ file: "a.ts", line: 1, column: 1, code: "TS2722",
+      rawMessage: "Cannot invoke an object which is possibly 'undefined'." });
+    expect(result.matchedPatternId).toBe("cannot-invoke-possibly-undefined");
+    expect(result.explanation).toContain("fn?.()");
+  });
+
+  it("explains TS4114 (override keyword required)", () => {
+    const result = explainDiagnostic({ file: "a.ts", line: 1, column: 1, code: "TS4114",
+      rawMessage: "This member must have an 'override' modifier because it overrides a member in the base class 'Animal'." });
+    expect(result.matchedPatternId).toBe("override-keyword-required");
+    expect(result.explanation).toContain("Animal");
+  });
+
+  it("explains TS7015 (array implicit any)", () => {
+    const result = explainDiagnostic({ file: "a.ts", line: 1, column: 1, code: "TS7015",
+      rawMessage: "Element implicitly has an 'any' type because index expression is not of type 'number'." });
+    expect(result.matchedPatternId).toBe("array-implicit-any");
+    expect(result.explanation).toContain("number");
+  });
+
+  it("explains TS2559 (no common properties)", () => {
+    const result = explainDiagnostic({ file: "a.ts", line: 1, column: 1, code: "TS2559",
+      rawMessage: "Type '{ foo: string; }' has no properties in common with type 'User'." });
+    expect(result.matchedPatternId).toBe("object-literal-excess-properties");
+    expect(result.explanation).toContain("User");
+  });
+
+  it("explains TS2578 (unused ts-expect-error)", () => {
+    const result = explainDiagnostic({ file: "a.ts", line: 1, column: 1, code: "TS2578",
+      rawMessage: "Unused '@ts-expect-error' directive." });
+    expect(result.matchedPatternId).toBe("unused-ts-expect-error");
+    expect(result.explanation).toContain("@ts-expect-error");
+  });
+
+  it("explains TS2448 (uninitialized variable)", () => {
+    const result = explainDiagnostic({ file: "a.ts", line: 1, column: 1, code: "TS2448",
+      rawMessage: "Block-scoped variable 'x' used before its declaration." });
+    expect(result.matchedPatternId).toBe("uninitialized-variable");
+    expect(result.explanation).toContain("x");
+  });
+
+  it("explains TS2347 (type arguments not allowed)", () => {
+    const result = explainDiagnostic({ file: "a.ts", line: 1, column: 1, code: "TS2347",
+      rawMessage: "Unresolved type arguments are not permitted." });
+    expect(result.matchedPatternId).toBe("type-arguments-not-allowed");
+    expect(result.explanation).toContain("type arguments");
+  });
+});
