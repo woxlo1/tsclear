@@ -170,14 +170,85 @@ export const patterns: ErrorPattern[] = [
       `Casting '${m[1]}' to '${m[2]}' looks suspicious because these types don't share enough in common. ` +
       `If you're sure about the cast, use 'unknown' as an intermediate step: '(value as unknown) as ${m[2]}'. Otherwise double-check your types.`,
   },
+  {
+    id: "unused-variable",
+    code: "TS6133",
+    match: /'(.+)' is declared but its value is never read\.?$/,
+    explain: (m) =>
+      `'${m[1]}' is declared but never used. ` +
+      `Either remove it, use it somewhere, or prefix it with an underscore ('_${m[1]}') to signal it's intentionally unused.`,
+  },
+  {
+    id: "no-exported-member",
+    code: "TS2614",
+    match: /Module '(.+)' has no exported member '(.+)'\.?$/,
+    explain: (m) =>
+      `'${m[2]}' doesn't exist as a named export in '${m[1]}'. ` +
+      `Check the module's exports (its index file or type declarations), or look for a typo in the import name.`,
+  },
+  {
+    id: "type-used-as-value",
+    code: "TS2693",
+    match: /'(.+)' only refers to a type, but is being used as a value here\.?$/,
+    explain: (m) =>
+      `'${m[1]}' is a type, not a value — you can't use it at runtime. ` +
+      `If you need a runtime check, use 'typeof' or create a class or enum instead.`,
+  },
+  {
+    id: "cannot-invoke-possibly-undefined",
+    code: "TS2722",
+    match: /Cannot invoke an object which is possibly 'undefined'\.?$/,
+    explain: () =>
+      `This function might be 'undefined' and can't be safely called. ` +
+      `Add a check before calling it (e.g. 'if (fn) fn()') or use optional call syntax 'fn?.()'.`,
+  },
+  {
+    id: "override-keyword-required",
+    code: "TS4114",
+    match: /This member must have an 'override' modifier because it overrides a member in the base class '(.+)'\.?$/,
+    explain: (m) =>
+      `This method overrides one in '${m[1]}' but is missing the 'override' keyword. ` +
+      `Add 'override' before the method name to make the intent explicit and catch accidental overrides.`,
+  },
+  {
+    id: "array-implicit-any",
+    code: "TS7015",
+    match: /Element implicitly has an 'any' type because index expression is not of type 'number'\.?$/,
+    explain: () =>
+      `You're indexing into an array with something that isn't a number, which gives an implicit 'any'. ` +
+      `Make sure the index is typed as 'number', or use a Record/Map if you need string keys.`,
+  },
+  {
+    id: "object-literal-excess-properties",
+    code: "TS2559",
+    match: /Type '(.+)' has no properties in common with type '(.+)'\.?$/,
+    explain: (m) =>
+      `The object you're passing (type '${m[1]}') shares no properties with '${m[2]}'. ` +
+      `This usually means you're passing the wrong object entirely, or the type definition has changed.`,
+  },
+  {
+    id: "unused-ts-expect-error",
+    code: "TS2578",
+    match: /Unused '@ts-expect-error' directive\.?$/,
+    explain: () =>
+      `You have a '@ts-expect-error' comment but there's no error on the next line. ` +
+      `Remove the comment since it's no longer needed — leaving it in can hide real errors in the future.`,
+  },
+  {
+    id: "uninitialized-variable",
+    code: "TS2448",
+    match: /Block-scoped variable '(.+)' used before its declaration\.?$/,
+    explain: (m) =>
+      `'${m[1]}' is being used before it's declared. ` +
+      `Move the declaration above the first use, or check for accidental variable shadowing.`,
+  },
+  {
+    id: "type-arguments-not-allowed",
+    code: "TS2347",
+    match: /Unresolved type arguments are not permitted\.?|Type arguments cannot be used here\.?$/,
+    explain: () =>
+      `You're passing type arguments (the angle brackets '<...>') somewhere that doesn't accept them. ` +
+      `Remove the type arguments, or check if you meant to call a generic function instead.`,
+  },
+
 ];
-
-
-
-
-
-
-
-
-
-
