@@ -1,7 +1,8 @@
 import type { ClearedDiagnostic, ParsedDiagnostic } from "./types.js";
-import { patterns } from "./patterns.js";
+import { patterns, getPatternExplanation } from "./patterns.js";
+import { type Language, getMessage } from "./i18n.js";
 
-export function explainDiagnostic(diag: ParsedDiagnostic): ClearedDiagnostic {
+export function explainDiagnostic(diag: ParsedDiagnostic, lang: Language = "en"): ClearedDiagnostic {
   const candidate = patterns.find((p) => p.code === diag.code);
 
   if (candidate) {
@@ -9,7 +10,7 @@ export function explainDiagnostic(diag: ParsedDiagnostic): ClearedDiagnostic {
     if (matched) {
       return {
         ...diag,
-        explanation: candidate.explain(matched),
+        explanation: getPatternExplanation(candidate, matched, lang),
         matchedPatternId: candidate.id,
       };
     }
@@ -22,6 +23,6 @@ export function explainDiagnostic(diag: ParsedDiagnostic): ClearedDiagnostic {
   };
 }
 
-export function explainAll(diags: ParsedDiagnostic[]): ClearedDiagnostic[] {
-  return diags.map(explainDiagnostic);
+export function explainAll(diags: ParsedDiagnostic[], lang: Language = "en"): ClearedDiagnostic[] {
+  return diags.map((d) => explainDiagnostic(d, lang));
 }

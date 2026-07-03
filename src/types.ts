@@ -1,3 +1,5 @@
+import type { Language } from "./i18n.js";
+
 export interface ErrorPattern {
   /** Unique id for this pattern, used internally and in tests */
   id: string;
@@ -6,7 +8,7 @@ export interface ErrorPattern {
   /** Regex used to detect and capture details from the raw tsc message */
   match: RegExp;
   /** Builds a human-readable explanation from the regex match */
-  explain: (m: RegExpMatchArray) => string;
+  explain: (m: RegExpMatchArray) => any;
 }
 
 export interface ParsedDiagnostic {
@@ -20,4 +22,8 @@ export interface ParsedDiagnostic {
 export interface ClearedDiagnostic extends ParsedDiagnostic {
   explanation: string;
   matchedPatternId: string | null;
+}
+
+export interface ExplainerOptions {
+  language?: Language;
 }
