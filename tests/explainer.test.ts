@@ -160,7 +160,7 @@ describe("explainDiagnostic - More patterns", () => {
 
     expect(enResult.matchedPatternId).toBe("argument-mismatch");
     expect(jaResult.matchedPatternId).toBe("argument-mismatch");
-    expect(enResult.explanation).toContain("Calling");
+    expect(enResult.explanation).toContain("calling");
     expect(jaResult.explanation).toContain("呼び出し");
   });
 });
