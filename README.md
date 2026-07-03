@@ -4,9 +4,9 @@
 [![npm version](https://img.shields.io/npm/v/ts-explainer.svg)](https://www.npmjs.com/package/ts-explainer)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-> TypeScript compiler errors, explained in plain English.
+> TypeScript compiler errors, explained in plain English. Now with Japanese support! 🇯🇵
 
-`ts-explainer` pipes between `tsc` and your terminal and rewrites cryptic TypeScript errors into clear, actionable explanations — without losing any information.
+`ts-explainer` pipes between `tsc` and your terminal and rewrites cryptic TypeScript errors into clear, actionable explanations — without losing any information. **Supports English and Japanese.**
 
 ---
 
@@ -62,12 +62,44 @@ npx tsc --noEmit --strict | npx ts-explainer
 npx tsc -p tsconfig.prod.json | npx ts-explainer
 ```
 
+### Language support
+
+By default, errors are explained in **English**. To use **Japanese**, pass the `--ja` flag or `--lang ja`:
+
+```bash
+# Japanese output
+npx tsc --noEmit | npx ts-explainer --ja
+npx tsc --noEmit | npx ts-explainer --lang ja
+
+# English output (default)
+npx tsc --noEmit | npx ts-explainer --lang en
+npx tsc --noEmit | npx ts-explainer
+```
+
+You can also set the language via environment variable:
+
+```bash
+export TS_EXPLAINER_LANG=ja
+npx tsc --noEmit | npx ts-explainer
+```
+
+#### Japanese example (日本語の例)
+
+```
+$ npx tsc --noEmit | npx ts-explainer --ja
+
+TS2345  src/api.ts:23:5
+  → 型 '{ id: string; name: string; }' の引数で関数を呼び出していますが、型 'User' を期待しています。
+    渡している値、または関数のパラメータ型を再確認してください。
+```
+
 ### Add to package.json
 
 ```json
 {
   "scripts": {
-    "typecheck": "tsc --noEmit | ts-explainer"
+    "typecheck": "tsc --noEmit | ts-explainer",
+    "typecheck:ja": "tsc --noEmit | ts-explainer --ja"
   }
 }
 ```
@@ -76,6 +108,16 @@ Then run with:
 
 ```bash
 npm run typecheck
+npm run typecheck:ja
+```
+
+### JSON output
+
+`ts-explainer` also supports JSON output for programmatic use:
+
+```bash
+npx tsc --noEmit | npx ts-explainer --json
+npx tsc --noEmit | npx ts-explainer --ja --json
 ```
 
 ### Unknown errors
@@ -93,12 +135,19 @@ import { parseTscOutput, explainAll } from "ts-explainer";
 
 const raw = `src/index.ts(1,1): error TS2304: Cannot find name 'fetchUser'.`;
 
+// English (default)
 const diagnostics = parseTscOutput(raw);
-const explained = explainAll(diagnostics);
+const explained = explainAll(diagnostics, "en");
 
 console.log(explained[0].explanation);
 // → 'fetchUser' isn't defined anywhere TypeScript can see. This is usually
 //   a missing import, a typo, or a missing @types package for a third-party library.
+
+// Japanese
+const explainedJa = explainAll(diagnostics, "ja");
+console.log(explainedJa[0].explanation);
+// → 'fetchUser' は TypeScript が確認できる場所のどこにも定義されていません。
+//   これは通常、インポートの欠落、タイプミス、またはサードパーティライブラリの @types パッケージの欠落です。
 ```
 
 Available exports:
@@ -106,8 +155,8 @@ Available exports:
 ```typescript
 import {
   parseTscOutput,      // string → ParsedDiagnostic[]
-  explainAll,          // ParsedDiagnostic[] → ClearedDiagnostic[]
-  explainDiagnostic,   // ParsedDiagnostic → ClearedDiagnostic
+  explainAll,          // ParsedDiagnostic[], Language? → ClearedDiagnostic[]
+  explainDiagnostic,   // ParsedDiagnostic, Language? → ClearedDiagnostic
   patterns,            // ErrorPattern[] — the full list of known patterns
 } from "ts-explainer";
 ```
@@ -168,7 +217,7 @@ import {
 | TS2759   | Cannot destructure property of null/undefined     |
 | TS2589   | Type instantiation is excessively deep            |
 
-More patterns are added with every release. Open an issue or PR if you keep running into an error that isn't covered yet — see [CONTRIBUTING.md](./CONTRIBUTING.md).
+All error explanations are now available in **English and Japanese**. More patterns are added with every release. Open an issue or PR if you keep running into an error that isn't covered yet — see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ---
 
@@ -178,7 +227,7 @@ More patterns are added with every release. Open an issue or PR if you keep runn
 
 ## Versioning
 
-This project follows [Semantic Versioning](https://semver.org/) and [Conventional Commits](https://www.conventionalcommits.org/). Version numbers are bumped at release time only — not on every commit. See [CHANGELOG.md](./CHANGELOG.md) for release history.
+This project follows [Semantic Versioning](https://semver.org/) and [Conventional Commits](https://www.conventionalcommits.org/). Version numbers are bumped at release time only — not on every commit.
 
 ## Contributing
 
