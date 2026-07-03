@@ -50,7 +50,7 @@ export function getMessage(msg: ErrorExplanation | string, lang: Language): stri
 }
 
 /** Get UI message in the specified language */
-export function getUIMessage<K extends keyof UIMessages>(key: K, lang: Language): UIMessages[K] {
+export function getUIMessage(key: keyof UIMessages, lang: Language): UIMessages[keyof UIMessages] {
   return uiMessages[lang][key];
 }
 
