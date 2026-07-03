@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="./assets/logo.svg" alt="ts-explainer logo" width="400">
+</p>
+
 # ts-explainer
 
 [![CI](https://github.com/woxlo1/ts-explainer/actions/workflows/ci.yml/badge.svg)](https://github.com/woxlo1/ts-explainer/actions/workflows/ci.yml)
